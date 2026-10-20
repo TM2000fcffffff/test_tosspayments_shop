@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>결제 실패 | LAYERED</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-category="">
+  <div id="site-header"></div>
+
+  <main class="result fail">
+    <div class="icon">!</div>
+    <h1>결제에 실패했습니다</h1>
+    <p id="message">결제 처리 중 문제가 발생했습니다.</p>
+
+    <dl class="receipt" id="receipt"></dl>
+
+    <div class="btn-row">
+      <a class="btn" href="index.html">홈으로</a>
+      <a class="btn btn-primary" href="checkout.html">다시 결제하기</a>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/products.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const message = params.get('message');
+      if (message) document.getElementById('message').textContent = message;
+      const rows = [
+        ['에러 코드', params.get('code') || '-'],
+        ['주문번호', params.get('orderId') || '-'],
+      ];
+      document.getElementById('receipt').innerHTML = rows
+        .map(([k, v]) => `<div><dt>${k}</dt><dd>${escapeHTML(v)}</dd></div>`)
+        .join('');
+    })();
+  </script>
+</body>
+</html>
